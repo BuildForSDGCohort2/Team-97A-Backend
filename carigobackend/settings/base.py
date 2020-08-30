@@ -15,9 +15,20 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # third party apps
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount'
 ]
 
-CARGO_APPS = ["main",]
+CARGO_APPS = ["main", "accounts"]
+
 
 INSTALLED_APPS = list(set(DJANGO_APPS + CARGO_APPS))
 
@@ -62,3 +73,28 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+
+# custom user settings
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# rest_framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        # all views are write protected unless otherwise stated
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    ['rest_framework.authentication.SessionAuthentication',  # allow for au # allow for aithetication within rest framework GUIthetication within rest framework GUI
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+     ],
+}
+
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'my-app-auth'
+SITE_ID = 1
+REST_AUTH_REGISTER_SERIALIZERS = {
+    # custom registration serializers to include custom views
+    'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer'}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
