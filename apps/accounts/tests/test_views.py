@@ -1,4 +1,3 @@
-from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.shortcuts import reverse
@@ -13,5 +12,6 @@ class AccountsTestCase(APITestCase):
         registerResponse = self.client.post(url, data, format='json')
         print(registerResponse.status_code)
 
-        assert registerResponse.status_code == status.HTTP_201_CREATED
-        assert ('refresh_token' and 'access_token') in registerResponse.data
+        self.assertEqual(registerResponse.status_code, status.HTTP_201_CREATED)
+        self.assertIn('refresh_token', registerResponse.data)
+        self.assertIn('access_token', registerResponse.data)
