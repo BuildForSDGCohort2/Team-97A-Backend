@@ -18,6 +18,7 @@ DJANGO_APPS = [
     'django.contrib.sites',
 
     # third party apps
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
@@ -29,10 +30,13 @@ DJANGO_APPS = [
 
 CARGO_APPS = ["main", "accounts"]
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 INSTALLED_APPS = list(set(DJANGO_APPS + CARGO_APPS))
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,6 +82,11 @@ STATIC_URL = '/static/'
 # custom user settings
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 # rest_framework settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -91,10 +100,16 @@ REST_FRAMEWORK = {
 }
 
 REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_COOKIE = 'carigoauthkey'
 SITE_ID = 1
 REST_AUTH_REGISTER_SERIALIZERS = {
     # custom registration serializers to include custom views
     'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer'}
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+LOGIN_REDIRECT_URL = "/dashboard/"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
