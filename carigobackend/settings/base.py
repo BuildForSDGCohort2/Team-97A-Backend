@@ -94,10 +94,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES':
-    [  # 'rest_framework.authentication.SessionAuthentication',   # allow for authentication within rest framework GUI
-        'rest_framework.authentication.BasicAuthentication',
+    ['rest_framework.authentication.SessionAuthentication',   # allow for authentication within rest framework GUI
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-    ],
+     ],
 }
 
 REST_USE_JWT = True
