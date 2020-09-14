@@ -94,7 +94,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES':
-    ['rest_framework.authentication.SessionAuthentication',  # allow for au # allow for aithetication within rest framework GUIthetication within rest framework GUI
+    ['rest_framework.authentication.SessionAuthentication',   # allow for authentication within rest framework GUI
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
      ],
 }
@@ -103,7 +103,7 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'carigoauthkey'
 SITE_ID = 1
 REST_AUTH_REGISTER_SERIALIZERS = {
-    # custom registration serializers to include custom views
+    # custom registration serializers to include custom user fields
     'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer'}
 
 ACCOUNT_EMAIL_REQUIRED = True
