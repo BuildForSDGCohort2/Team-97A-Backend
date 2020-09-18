@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
-
+from . import models
 
 # custom registration serializer
 class RegistrationSerializer(RegisterSerializer):
@@ -16,3 +16,8 @@ class RegistrationSerializer(RegisterSerializer):
         user.address = self.validated_data.get('address', '')
         user.save(update_fields=['first_name',
                                  'last_name', 'phone_number', 'address'])
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = models.CustomUser
+        fields = ('email', 'first_name', 'last_name', 'phone_number', 'address', 'is_verified')
