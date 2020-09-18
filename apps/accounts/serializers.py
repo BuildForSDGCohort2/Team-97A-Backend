@@ -19,5 +19,5 @@ class RegistrationSerializer(RegisterSerializer):
 
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
-        models = models.CustomUser
+        model = models.CustomUser
         fields = ('email', 'first_name', 'last_name', 'phone_number', 'address', 'is_verified')

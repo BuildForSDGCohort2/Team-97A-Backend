@@ -3,10 +3,12 @@ from rest_framework_simplejwt import views as jwt_views
 from rest_framework.routers import DefaultRouter
 from . import views
 
+app_name = "accounts"
+
 router = DefaultRouter()
+# Provides a full CRUD endpoint for users.
 router.register('users/', views.UserDetailsViewset, basename="users")
 
-app_name = "accounts"
 urlpatterns = [
     path('', include('dj_rest_auth.urls')),
     path('register/', include('dj_rest_auth.registration.urls')),
@@ -16,3 +18,7 @@ urlpatterns = [
 
 ]
 urlpatterns += router.urls
+
+# To see all urls
+# import pprint
+# pprint.pprint(urlpatterns)

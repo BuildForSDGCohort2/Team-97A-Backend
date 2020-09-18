@@ -13,4 +13,7 @@ urlpatterns = [
     path('', views.DashboardView.as_view(), name='dashboard'),
 ] 
 urlpatterns += router.urls
-# print(urlpatterns)
+
+# To see all urls
+# import pprint
+# pprint.pprint(urlpatterns)

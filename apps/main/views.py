@@ -32,7 +32,7 @@ class PackageVerificationViewset(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = serializers.PackageVerificationSerializerDetails
         if not request.user.is_staff:
-            self.queryset = self.queryset.filter(user=request.user.id)
+            self.queryset = self.queryset.filter(user=request.user.pk)
         super().retrieve(request, *args, **kwargs)
 
 class TrackerViewSet(viewsets.ModelViewSet):
