@@ -23,7 +23,6 @@ class PackageVerificationSerializer(ModelSerializer):
         fields = '__all__'
 
 class PackageVerificationSerializerDetails(ModelSerializer):
-    
     class Meta:
         model = models.PackageVerification
         fields = '__all__'

@@ -1,4 +1,4 @@
-from rest_framework import generics, viewsets
+from rest_framework import viewsets
 from . import models, serializers
 from rest_framework.permissions import IsAuthenticated
 
