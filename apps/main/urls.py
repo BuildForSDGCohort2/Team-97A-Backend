@@ -11,7 +11,7 @@ router.register('trackers/', views.TrackerViewSet, basename="trackers")
 
 urlpatterns = [
     path('', views.DashboardView.as_view(), name='dashboard'),
-] 
+]
 urlpatterns += router.urls
 
 # To see all urls

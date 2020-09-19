@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer
 from . import models
-import accounts.serializers as accountSerializer
 
 class TrackerSerializer(ModelSerializer):
     class Meta:
@@ -14,7 +13,6 @@ class PackageSerializer(ModelSerializer):
 
 class PackageSerializerDetails(ModelSerializer):
     tracker = TrackerSerializer()
-    
     class Meta:
         model = models.Package
         fields = '__all__'

@@ -18,7 +18,7 @@ class AccountsTestCase(APITestCase):
     def test_editDetails(self):
         data = {'username': "Tundeednut", 'email': "tundeednut@gmail.com", 'password1': 's3r3n1ty', 'password2': 's3r3n1ty', 'first_name': 'Tunde', 'last_name': "Balogun", 'phone_number': '08167467782', 'address': '2, Cole Street Collins Road, Ikeja, Lagos'}
         user = self.signup(data).data
-        oldData = user
+        # oldData = user
         url = reverse('accounts:users-detail', kwargs={'pk': user['user']['pk']})
         user.update(**{'first_name': 'Olamide', 'last_name': 'Agunbiade', 'email': data['email'], 'phone_number': data['phone_number'], 'address': data['address']})
         response = self.client.put(url, user, HTTP_AUTHORIZATION="Bearer %s" %user['access_token'], format="json")
