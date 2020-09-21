@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import reverse
 
 CLOTHS = "CLOTHS"
 DOCUMENTS = "DOCUMENTS"
@@ -26,11 +27,11 @@ class Package(models.Model):
     owner = models.ForeignKey("accounts.CustomUser", related_name="item_owner", verbose_name=_(
         "owner"), on_delete=models.CASCADE)
     carrier = models.ForeignKey("accounts.CustomUser", verbose_name=_(
-        "carrier"), on_delete=models.CASCADE)
+        "carrier"), on_delete=models.DO_NOTHING) # Else when a Carrier's account goes the Package goes
 
     security_code = models.CharField(_("security code"), max_length=20)
     tracker = models.ForeignKey("main.Tracker", verbose_name=_(
-        "tracker"), on_delete=models.CASCADE)
+        "tracker"), null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = _("Package")
@@ -63,14 +64,14 @@ class PackageVerification(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("package_verification_detail", kwargs={"pk": self.pk})
+        return reverse("packages-verify", kwargs={"pk": self.pk}) # Edited according to the new url config
 
 
 class Tracker(models.Model):
 
-    is_uploaded = models.BooleanField(_("is uploaded"))
-    in_transit = models.BooleanField(_("in transit"))
-    is_delivered = models.BooleanField(_("is delivered"))
+    is_uploaded = models.BooleanField(_("is uploaded"), default=False) # Added False as default state
+    in_transit = models.BooleanField(_("in transit"), default=False)
+    is_delivered = models.BooleanField(_("is delivered"), default=False)
 
     class Meta:
         verbose_name = _("Tracker")

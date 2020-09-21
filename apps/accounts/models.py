@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
+    is_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name',
