@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import reverse
 
 CLOTHS = "CLOTHS"
 DOCUMENTS = "DOCUMENTS"
