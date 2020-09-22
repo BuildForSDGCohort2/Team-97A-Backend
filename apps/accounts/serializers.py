@@ -3,6 +3,8 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from . import models
 
 # custom registration serializer
+
+
 class RegistrationSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
@@ -17,7 +19,16 @@ class RegistrationSerializer(RegisterSerializer):
         user.save(update_fields=['first_name',
                                  'last_name', 'phone_number', 'address'])
 
+
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
-        fields = ('email', 'first_name', 'last_name', 'phone_number', 'address', 'is_verified')
+        fields = ('id', 'email', 'first_name', 'last_name',
+                  'phone_number', 'address', 'is_verified')
+
+
+# moved user verification serializers from main to accounts cause it is concerned with the accounts and user section
+class UserVerificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UserVerification
+        fields = '__all__'

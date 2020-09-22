@@ -1,13 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .import views
 
 app_name = "core"
 
 router = DefaultRouter()
-router.register('packages/', views.PackageViewset, basename="packages")
-router.register('packages/verify/', views.PackageVerificationViewset, basename='packages-verify')
-router.register('trackers/', views.TrackerViewSet, basename="trackers")
+router.register(r'packages', views.PackageViewset, basename="packages")
+router.register(r'trackers', views.TrackerViewSet, basename="trackers")
 
 urlpatterns = [
     path('', views.DashboardView.as_view(), name='dashboard'),
