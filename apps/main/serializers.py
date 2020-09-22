@@ -9,15 +9,6 @@ class TrackerSerializer(ModelSerializer):
 
 
 class PackageSerializer(ModelSerializer):
-
-    class Meta:
-        model = models.Package
-        fields = '__all__'
-        # fields = ('name', 'weight', 'category', 'price', 'pick_location', 'dest_location',
-        #   'delivered_on', 'description', 'owner', 'carrier', 'tracker')
-
-
-class PackageSerializerDetails(ModelSerializer):
     tracker = TrackerSerializer(read_only=True)
 
     class Meta:

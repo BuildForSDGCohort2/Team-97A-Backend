@@ -17,14 +17,8 @@ class DashboardView(APIView):
 
 class PackageViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
-    serializer_class = serializers.PackageSerializerDetails
+    serializer_class = serializers.PackageSerializer
     queryset = models.Package.objects.all()
-
-    def retrieve(self, request, *args, **kwargs):
-        self.serializer_class = serializers.PackageSerializerDetails
-        if not request.user.is_staff:
-            self.queryset = self.queryset.filter(user=request.user.id)
-        return super().retrieve(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         # to update tracker

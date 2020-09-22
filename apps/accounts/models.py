@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 
@@ -40,4 +41,4 @@ class UserVerification(models.Model):
 
     def get_absolute_url(self):
         # Edited according to the new url config
-        return reverse("users-verify", kwargs={"pk": self.pk})
+        return reverse("user-verify", kwargs={"pk": self.pk})

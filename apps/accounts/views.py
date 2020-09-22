@@ -9,9 +9,8 @@ class UserDetailsViewset(viewsets.ModelViewSet):
     serializer_class = serializers.UserDetailsSerializer
     queryset = models.CustomUser.objects.all()
 
+
 # moved user verification view from main to account cause it is concerned with the account
-
-
 class UserVerificationViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = serializers.UserVerificationSerializer
