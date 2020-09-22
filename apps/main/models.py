@@ -10,6 +10,12 @@ OTHER = "OTHER"
 CATEGORY_CHOICES = ((CLOTHS, "Cloths"), (DOCUMENTS, "Documents"),
                     (GROCERY, "Grocery"), (OTHER, "Other"))
 
+# for piority choice field on package model
+HIGH = 'HIGH'
+MEDIUM = 'MEDIUM'
+LOW = 'LOW'
+PRIORITY_CHOICES = ((HIGH, 'HIGH'), (MEDIUM, 'MEDIUM'), (LOW, 'LOW'))
+
 
 class Package(models.Model):
 
@@ -19,9 +25,10 @@ class Package(models.Model):
         _("category"), choices=CATEGORY_CHOICES, max_length=50)
 
     price = models.PositiveIntegerField(_("price"))
-    pick_location = models.CharField(_("pick up location"), max_length=50)
-    dest_location = models.CharField(_("delivery location"), max_length=50)
+    pick_address = models.CharField(_("pick up location"), max_length=50)
+    dest_address = models.CharField(_("delivery location"), max_length=50)
     delivered_on = models.DateTimeField(_("delivery time"))
+
     description = models.CharField(_("description"), max_length=250)
 
     owner = models.ForeignKey("accounts.CustomUser", related_name="item_owner", verbose_name=_(
@@ -33,6 +40,13 @@ class Package(models.Model):
     # Tracker should be OnetoOneField
     tracker = models.OneToOneField("main.Tracker", verbose_name=_(
         "tracker"), null=True, blank=True, on_delete=models.SET_NULL)
+
+    origin = models.CharField(_("package origin city"), max_length=50)
+    destination = models.CharField(
+        _("package destination city"), max_length=50)
+    priority = models.CharField(
+        _('Package Priority'), choices=PRIORITY_CHOICES, max_length=50)
+    delivery_period = models.PositiveIntegerField(_("delivery period"))
 
     class Meta:
         verbose_name = _("Package")
