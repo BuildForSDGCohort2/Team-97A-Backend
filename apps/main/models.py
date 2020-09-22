@@ -25,8 +25,8 @@ class Package(models.Model):
         _("category"), choices=CATEGORY_CHOICES, max_length=50)
 
     price = models.PositiveIntegerField(_("price"))
-    pick_address = models.CharField(_("pick up location"), max_length=50)
-    dest_address = models.CharField(_("delivery location"), max_length=50)
+    pick_address = models.CharField(_("pick up address"), max_length=50)
+    dest_address = models.CharField(_("delivery address"), max_length=50)
     delivered_on = models.DateTimeField(_("delivery time"))
 
     description = models.CharField(_("description"), max_length=250)
@@ -47,6 +47,8 @@ class Package(models.Model):
     priority = models.CharField(
         _('Package Priority'), choices=PRIORITY_CHOICES, max_length=50)
     delivery_period = models.PositiveIntegerField(_("delivery period"))
+    package_image = models.ImageField(
+        _("Package image"), upload_to='package_images/', default='package_images/default.png')
 
     class Meta:
         verbose_name = _("Package")
