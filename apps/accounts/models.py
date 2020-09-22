@@ -33,7 +33,9 @@ class UserVerification(models.Model):
         _("bank account number"), max_length=10)
 
     class Meta:
+        
         '''modifies the meta info of the UserVerification model'''
+        
         verbose_name = _("user Verification")
         verbose_name_plural = _("user Verifications")
 
