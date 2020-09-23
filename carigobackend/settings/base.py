@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import timedelta
 import sys
 import os
 
@@ -117,3 +118,9 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 LOGIN_REDIRECT_URL = "/dashboard/"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
+    'ROTATE_REFRESH_TOKENS': True, }

@@ -35,9 +35,10 @@ class Package(models.Model):
     owner = models.ForeignKey("accounts.CustomUser", related_name="item_owner", verbose_name=_(
         "owner"), on_delete=models.CASCADE)
     carrier = models.ForeignKey("accounts.CustomUser", verbose_name=_(
-        "carrier"), on_delete=models.DO_NOTHING)  # Else when a Carrier's account goes the Package goes
+        "carrier"), on_delete=models.DO_NOTHING, null=True, blank=True)  # Else when a Carrier's account goes the Package goes
 
-    security_code = models.CharField(_("security code"), max_length=20)
+    security_code = models.CharField(
+        _("security code"), max_length=20, null=True, blank=True)
     # Tracker should be OnetoOneField
     tracker = models.OneToOneField("main.Tracker", verbose_name=_(
         "tracker"), null=True, blank=True, on_delete=models.SET_NULL)
