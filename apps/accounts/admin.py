@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, UserVerification
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
@@ -9,14 +9,14 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
     list_display = ['email', 'username',
-                    'first_name', 'last_name', 'phone_number', 'address']
+                    'first_name', 'last_name', 'phone_number', 'address', 'is_verified']
 
     fieldsets = (*UserAdmin.fieldsets,
                  (
                      'Other fields',
                      {
                          'fields': (
-                             'phone_number', 'address'
+                             'phone_number', 'address', 'is_verified'
                          ),
                      },
                  ),
@@ -24,3 +24,4 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(UserVerification)

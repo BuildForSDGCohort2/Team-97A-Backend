@@ -7,7 +7,9 @@ app_name = "accounts"
 
 router = DefaultRouter()
 # Provides a full CRUD endpoint for users.
-router.register('users/', views.UserDetailsViewset, basename="users")
+router.register(r'users', views.UserDetailsViewset, basename="users")
+router.register(r'verify',
+                views.UserVerificationViewset, basename='user-verify')
 
 urlpatterns = [
     path('', include('dj_rest_auth.urls')),
@@ -18,6 +20,7 @@ urlpatterns = [
 
 ]
 urlpatterns += router.urls
+
 
 # To see all urls
 # import pprint

@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -12,3 +14,5 @@ urlpatterns = [
             name='account_confirm_email'),  # Generic email confirmation path to bypass email cnfirmation for now
 
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
