@@ -27,7 +27,8 @@ class Package(models.Model):
     price = models.PositiveIntegerField(_("price"))
     pick_address = models.CharField(_("pick up address"), max_length=50)
     dest_address = models.CharField(_("delivery address"), max_length=50)
-    delivered_on = models.DateTimeField(_("delivery time"))
+    delivered_on = models.DateTimeField(
+        _("delivery time"), blank=True, null=True)
 
     description = models.CharField(_("description"), max_length=250)
 

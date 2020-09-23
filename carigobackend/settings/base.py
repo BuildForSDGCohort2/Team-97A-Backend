@@ -78,6 +78,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# media settings
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 # custom user settings
 AUTH_USER_MODEL = 'accounts.CustomUser'
