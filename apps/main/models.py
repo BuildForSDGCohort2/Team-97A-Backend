@@ -65,7 +65,7 @@ class Package(models.Model):
 
 class Tracker(models.Model):
 
-    is_uploaded = models.BooleanField(
+    is_confirmed = models.BooleanField(
         _("is uploaded"), default=False)  # Added False as default state
     in_transit = models.BooleanField(_("in transit"), default=False)
     is_delivered = models.BooleanField(_("is delivered"), default=False)
