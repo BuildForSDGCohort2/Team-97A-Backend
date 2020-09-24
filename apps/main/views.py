@@ -20,21 +20,6 @@ class PackageViewset(viewsets.ModelViewSet):
     serializer_class = serializers.PackageSerializer
     queryset = models.Package.objects.all()
 
-    def update(self, request, *args, **kwargs):
-        # to update tracker
-        tracker_id = request.data['tracker']['id']
-        tracker = get_object_or_404(models.Tracker, id=tracker_id)
-        is_uploaded = request.data['tracker']['is_uploaded']
-        in_transit = request.data['tracker']['in_transit']
-        is_delivered = request.data['tracker']['is_delivered']
-        tracker.is_delivered = is_delivered
-        tracker.in_transit = in_transit
-        tracker.is_uploaded = is_uploaded
-        tracker.save()
-        print(tracker)
-
-        return super().update(request, *args, **kwargs)
-
 
 class TrackerViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
@@ -42,10 +27,10 @@ class TrackerViewSet(viewsets.ModelViewSet):
     queryset = models.Tracker.objects.all()
 
 
-# signal to initialize a new model anythime the a package instance is saved
+# signal to initialize a new tracker anythime the a package instance is saved
 def create_package_tracker(sender, instance, **kwargs):
     if not sender.objects.filter(id=instance.id).exists():
-        tracker = models.Tracker(is_uploaded=True)
+        tracker = models.Tracker(is_confirmed=False)
         tracker.save()
         instance.tracker = tracker
 
