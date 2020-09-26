@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from django.db.models.signals import pre_save
 from rest_framework import viewsets
 from . import serializers, models
+import random
+import string
 
 
 class DashboardView(APIView):
@@ -27,13 +29,3 @@ class TrackerViewSet(viewsets.ModelViewSet):
     queryset = models.Tracker.objects.all()
 
 
-# signal to initialize a new tracker anythime the a package instance is saved
-def create_package_tracker(sender, instance, **kwargs):
-    if not sender.objects.filter(id=instance.id).exists():
-        tracker = models.Tracker(is_confirmed=False)
-        tracker.save()
-        instance.tracker = tracker
-
-
-pre_save.connect(receiver=create_package_tracker,
-                 sender=models.Package, dispatch_uid='create_package_tracker')
