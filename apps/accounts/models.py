@@ -22,8 +22,7 @@ class CustomUser(AbstractUser):
 
 # moved user verification model from main to account cause it is concerned with the account
 class UserVerification(models.Model):
-
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='verification')
     NIN = models.CharField(_("National Identification Number"), max_length=11)
     BVN = models.CharField(_("Bank Verification Number"), max_length=11)
     upload_id = models.ImageField(_("upload id"), upload_to='ids/')

@@ -20,15 +20,18 @@ class RegistrationSerializer(RegisterSerializer):
                                  'last_name', 'phone_number', 'address'])
 
 
-class UserDetailsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.CustomUser
-        fields = ('id', 'email', 'first_name', 'last_name',
-                  'phone_number', 'address', 'is_verified')
-
 
 # moved user verification serializers from main to accounts cause it is concerned with the accounts and user section
 class UserVerificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserVerification
         fields = '__all__'
+
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    verification=UserVerificationSerializer( read_only=True)
+    
+    class Meta:
+        model = models.CustomUser
+        fields = ('id', 'email', 'first_name', 'last_name',
+                  'phone_number', 'address', 'is_verified', 'verification')
