@@ -23,12 +23,12 @@ class CustomUser(AbstractUser):
 # moved user verification model from main to account cause it is concerned with the account
 class UserVerification(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='verification')
-    NIN = models.CharField(_("National Identification Number"), max_length=11)
-    BVN = models.CharField(_("Bank Verification Number"), max_length=11)
+    NIN = models.CharField(_("National Identification Number"), max_length=20)
+    BVN = models.CharField(_("Bank Verification Number"), max_length=20)
     upload_id = models.ImageField(_("upload id"), upload_to='ids/')
-    id_type=models.CharField(_("type of ID"), max_length=20)
+    id_type=models.CharField(_("type of ID"), max_length=500)
     bank_name = models.CharField(_("bank name"), max_length=50)
-    account_number = models.CharField( _("bank account number"), max_length=10)
+    account_number = models.CharField( _("bank account number"), max_length=20)
     account_name=models.CharField(_("bank account name"), max_length=50)
 
     class Meta:

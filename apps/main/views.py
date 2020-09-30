@@ -8,6 +8,9 @@ from . import serializers, models
 import random
 import string
 
+from rest_framework.decorators import api_view
+from .errors import InsufficientBalance
+
 
 class DashboardView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -27,6 +30,26 @@ class TrackerViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
     serializer_class = serializers.TrackerSerializer
     queryset = models.Tracker.objects.all()
+
+# Note that there is no transaction views because every 
+# transaction should be made via the wallet deposit and withdraw methods
+class WalletDepositView(APIView):
+    permission_classes=(IsAuthenticated,)
+    def post(self, request, pk, amount):
+        wallet=models.Wallet.objects.filter(pk=pk).first()
+        wallet.deposit(amount)
+        return Response({'message':'deposit successfull'})
+
+class WalletWithrawView(APIView):
+    permission_classes=(IsAuthenticated,)
+    def post(self, request, pk, amount):
+        wallet=models.Wallet.objects.filter(pk=pk).first()
+        try:
+            wallet.withdraw(amount)
+            return Response({'message':'withdraw successfull'})
+        except InsufficientBalance:
+            return Response({'message':'insufficient balance'}, status=400)
+
 
 
 # signal to initialize a new tracker anythime the a package instance is saved

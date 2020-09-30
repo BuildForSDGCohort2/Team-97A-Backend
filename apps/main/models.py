@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import reverse
+from .errors import InsufficientBalance
 
 CLOTHS = "CLOTHS"
 DOCUMENTS = "DOCUMENTS"
@@ -80,3 +81,47 @@ class Tracker(models.Model):
 
     def get_absolute_url(self):
         return reverse("tracker_detail", kwargs={"pk": self.pk})
+
+
+class Wallet(models.Model):
+    user = models.OneToOneField(to='accounts.CustomUser', on_delete=models.CASCADE, related_name='wallet')
+    current_balance = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.username}\'s wallet'
+
+    def deposit(self, amount):
+        """Deposits a amount to the wallet.
+        Also creates a new transaction with the deposit
+        amount.
+        """
+        self.transactions.create(amount=amount, running_balance=self.current_balance + amount,  is_credit=True)
+        self.current_balance += amount
+        self.save()
+
+    def withdraw(self, amount):
+        """Withdraw's a amount from the wallet.
+        Also creates a new transaction with the withdraw
+        amount.
+        Should the withdrawn amount is greater than the
+        balance this wallet currently has, it raises an
+        :mod:`InsufficientBalance` error. This exception
+        inherits from :mod:`django.db.IntegrityError`. So
+        that it automatically rolls-back during a
+        transaction lifecycle.
+        """
+        if amount > self.current_balance:
+            raise InsufficientBalance('This wallet has insufficient balance.')
+
+        self.transactions.create(amount=-amount, running_balance=self.current_balance - amount, is_credit=False)
+        self.current_balance -= amount
+        self.save()
+
+class Transaction(models.Model):
+    wallet = models.ForeignKey(Wallet, on_delete=models.DO_NOTHING, related_name='transactions')
+    amount = models.IntegerField(default=0)
+    #current balance of wallet during transaction
+    running_balance = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_credit=models.BooleanField()
