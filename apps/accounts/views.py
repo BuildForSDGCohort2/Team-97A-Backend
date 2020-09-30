@@ -1,7 +1,9 @@
 from rest_framework import viewsets
 from . import models, serializers
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from rest_framework.permissions import IsAuthenticated
+from main.models import Wallet
+
 
 
 class UserDetailsViewset(viewsets.ModelViewSet):
@@ -15,6 +17,19 @@ class UserVerificationViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = serializers.UserVerificationSerializer
     queryset = models.UserVerification.objects.all()
+
+
+
+# signal to create user's wallet when a CustomUser model instance is saved
+def create_wallet(sender, instance, created, **kwargs):
+    if created:
+        wallet=Wallet(user=instance)
+        wallet.save()
+
+post_save.connect(receiver=create_wallet,
+                 sender=models.CustomUser, dispatch_uid='create_wallet')
+
+
 
 
 # signal to verify user when a UserVerificaton model instance is saved

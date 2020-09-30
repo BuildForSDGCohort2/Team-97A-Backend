@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from . import models
+from main.serializers import WalletSerializer
 
 # custom registration serializer
 
@@ -29,9 +30,9 @@ class UserVerificationSerializer(serializers.ModelSerializer):
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
-    verification=UserVerificationSerializer( read_only=True)
-    
+    verification=UserVerificationSerializer(read_only=True)
+    wallet=WalletSerializer(read_only=True)    
     class Meta:
         model = models.CustomUser
         fields = ('id', 'email', 'first_name', 'last_name',
-                  'phone_number', 'address', 'is_verified', 'verification')
+                  'phone_number', 'address', 'is_verified', 'verification', 'wallet')
