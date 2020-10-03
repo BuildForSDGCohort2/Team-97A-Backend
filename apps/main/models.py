@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import reverse
 from .errors import InsufficientBalance
+from django.db import transaction
 
 CLOTHS = "CLOTHS"
 DOCUMENTS = "DOCUMENTS"
@@ -91,6 +92,7 @@ class Wallet(models.Model):
     def __str__(self):
         return f'{self.user.username}\'s wallet'
 
+    @transaction.atomic
     def deposit(self, amount):
         """Deposits a amount to the wallet.
         Also creates a new transaction with the deposit
@@ -100,6 +102,7 @@ class Wallet(models.Model):
         self.current_balance += amount
         self.save()
 
+    @transaction.atomic
     def withdraw(self, amount):
         """Withdraw's a amount from the wallet.
         Also creates a new transaction with the withdraw
