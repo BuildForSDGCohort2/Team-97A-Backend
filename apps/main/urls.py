@@ -10,8 +10,13 @@ router.register(r'trackers', views.TrackerViewSet, basename="trackers")
 
 urlpatterns = [
     path('', views.DashboardView.as_view(), name='dashboard'),
-    path('wallets/<int:pk>/deposit/<int:amount>/', views.WalletDepositView.as_view(), name='deposit'),
-    path('wallets/<int:pk>/withdraw/<int:amount>/', views.WalletWithrawView.as_view(), name='withdraw'),
+    path('wallets/<int:pk>/deposit/<int:amount>/',
+         views.WalletDepositView.as_view(), name='deposit'),
+    path('wallets/<int:pk>/withdraw/<int:amount>/',
+         views.WalletWithrawView.as_view(), name='withdraw'),
+    path('wallets/transfer/<int:amount>/',
+         views.TranserView.as_view(), name='transfer'),
+
 ]
 urlpatterns += router.urls
 
