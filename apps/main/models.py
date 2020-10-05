@@ -68,7 +68,7 @@ class Package(models.Model):
 class Tracker(models.Model):
 
     is_confirmed = models.BooleanField(
-        _("is uploaded"), default=False)  # Added False as default state
+        _("is confirmed"), default=False)  # Added False as default state
     in_transit = models.BooleanField(_("in transit"), default=False)
     is_delivered = models.BooleanField(_("is delivered"), default=False)
 
@@ -85,7 +85,8 @@ class Tracker(models.Model):
 
 
 class Wallet(models.Model):
-    user = models.OneToOneField(to='accounts.CustomUser', on_delete=models.CASCADE, related_name='wallet')
+    user = models.OneToOneField(
+        to='accounts.CustomUser', on_delete=models.CASCADE, related_name='wallet')
     current_balance = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -98,7 +99,8 @@ class Wallet(models.Model):
         Also creates a new transaction with the deposit
         amount.
         """
-        self.transactions.create(amount=amount, running_balance=self.current_balance + amount,  is_credit=True)
+        self.transactions.create(
+            amount=amount, running_balance=self.current_balance + amount,  is_credit=True)
         self.current_balance += amount
         self.save()
 
@@ -117,14 +119,25 @@ class Wallet(models.Model):
         if amount > self.current_balance:
             raise InsufficientBalance('This wallet has insufficient balance.')
 
-        self.transactions.create(amount=-amount, running_balance=self.current_balance - amount, is_credit=False)
+        self.transactions.create(
+            amount=-amount, running_balance=self.current_balance - amount, is_credit=False)
         self.current_balance -= amount
         self.save()
 
+    @transaction.atomic
+    def transfer(self, wallet, value):
+        """Transfers an value to another wallet.
+        Uses `deposit` and `withdraw` internally.
+        """
+        self.withdraw(value)
+        wallet.deposit(value)
+
+
 class Transaction(models.Model):
-    wallet = models.ForeignKey(Wallet, on_delete=models.DO_NOTHING, related_name='transactions')
+    wallet = models.ForeignKey(
+        Wallet, on_delete=models.DO_NOTHING, related_name='transactions')
     amount = models.IntegerField(default=0)
-    #current balance of wallet during transaction
+    # current balance of wallet during transaction
     running_balance = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    is_credit=models.BooleanField()
+    is_credit = models.BooleanField()
