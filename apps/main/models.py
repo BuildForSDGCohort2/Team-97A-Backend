@@ -53,6 +53,12 @@ class Package(models.Model):
     delivery_period = models.PositiveIntegerField(_("delivery period"))
     package_image = models.ImageField(
         _("Package image"), upload_to='package_images/', default='package_images/default.png')
+    recievers_first_name = models.CharField(
+        _("recievers first name"), max_length=20)
+    recievers_last_name = models.CharField(
+        _("recievers last name"), max_length=20)
+    recievers_phone_number = models.CharField(
+        _("recievers phone number"), max_length=20)
 
     class Meta:
         verbose_name = _("Package")
