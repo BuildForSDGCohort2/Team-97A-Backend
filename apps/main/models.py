@@ -93,7 +93,7 @@ class Tracker(models.Model):
 class Wallet(models.Model):
     user = models.OneToOneField(
         to='accounts.CustomUser', on_delete=models.CASCADE, related_name='wallet')
-    current_balance = models.IntegerField(default=0)
+    current_balance = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
